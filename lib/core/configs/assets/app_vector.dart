@@ -6,4 +6,7 @@ class AppVector {
   static const String logo = '${basePath}spotify_logo$format';
   static const String sun = '${basePath}Sun_1$format';
   static const String moon = '${basePath}Moon$format';
+
+  static const String topPattern = '${basePath}top_pattern$format';
+  static const String bottomPattern = '${basePath}bottom_pattern$format';
 }

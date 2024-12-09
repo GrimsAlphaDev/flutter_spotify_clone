@@ -6,7 +6,7 @@ import 'package:flutter_spotify_clone/service_locator.dart';
 class FavoriteButtonCubit extends Cubit<FavoriteButtonState> {
   FavoriteButtonCubit() : super(FavoriteButtonInitial());
 
-  void favoriteButtonUpdated(String songId) async {
+  Future<void> favoriteButtonUpdated(String songId) async {
     var result = await serviceLocator<AddOrRemoveFavoriteSongUseCase>()
         .call(params: songId);
 

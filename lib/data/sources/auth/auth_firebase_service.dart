@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_spotify_clone/core/configs/contants/app_urls.dart';
 import 'package:flutter_spotify_clone/data/models/auth/create_user_req.dart';
 import 'package:flutter_spotify_clone/data/models/auth/signin_user_req.dart';
+import 'package:flutter_spotify_clone/data/models/auth/user.dart';
+import 'package:flutter_spotify_clone/domain/entities/auth/user.dart';
 
 abstract class AuthFirebaseService {
   Future<Either> signup(CreateUserReq createUserReq);
   Future<Either> signin(SigninUserReq signinUserReq);
+  Future<Either> getUser();
 }
 
 class AuthFirebaseServiceImplementation extends AuthFirebaseService {
@@ -40,9 +44,7 @@ class AuthFirebaseServiceImplementation extends AuthFirebaseService {
         password: createUserReq.password,
       );
 
-      FirebaseFirestore.instance.collection('Users')
-      .doc(data.user?.uid)
-      .set({
+      FirebaseFirestore.instance.collection('Users').doc(data.user?.uid).set({
         'name': createUserReq.fullName,
         'email': data.user?.email,
       });
@@ -50,6 +52,27 @@ class AuthFirebaseServiceImplementation extends AuthFirebaseService {
       return const Right('Signup was Successful');
     } on FirebaseAuthException catch (e) {
       return Left(e.message);
+    }
+  }
+
+  @override
+  Future<Either> getUser() async {
+    try {
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+      var user = await firebaseFirestore
+          .collection('Users')
+          .doc(firebaseAuth.currentUser?.uid)
+          .get();
+
+      UserModel userModel = UserModel.fromJson(user.data()!);
+      userModel.imageURL =
+          firebaseAuth.currentUser?.photoURL ?? AppUrls.defaultImage;
+      UserEntity userEntity = userModel.toEntity();
+      return Right(userEntity);
+    } catch (e) {
+      return const Left('An error occurred');
     }
   }
 }

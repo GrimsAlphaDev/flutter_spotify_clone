@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spotify_clone/common/helpers/is_dark_mode.dart';
-import 'package:flutter_spotify_clone/core/configs/contents/app_cover.dart';
+import 'package:flutter_spotify_clone/core/configs/contants/app_cover.dart';
 import 'package:flutter_spotify_clone/core/configs/theme/app_colors.dart';
 import 'package:flutter_spotify_clone/domain/entities/song/song.dart';
 import 'package:flutter_spotify_clone/presentation/home/bloc/news_song_cubit.dart';

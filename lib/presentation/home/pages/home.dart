@@ -6,6 +6,7 @@ import 'package:flutter_spotify_clone/core/configs/assets/app_vector.dart';
 import 'package:flutter_spotify_clone/core/configs/theme/app_colors.dart';
 import 'package:flutter_spotify_clone/presentation/home/widgets/news_songs.dart';
 import 'package:flutter_spotify_clone/presentation/home/widgets/play_list.dart';
+import 'package:flutter_spotify_clone/presentation/profile/pages/profile.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,6 +35,17 @@ class _HomePageState extends State<HomePage>
           AppVector.logo,
           height: 40,
           width: 40,
+        ),
+        action: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const ProfilePage(),
+              ),
+            );
+          },
+          icon: const Icon(Icons.person),
         ),
       ),
       body: SingleChildScrollView(

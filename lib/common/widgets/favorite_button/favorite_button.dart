@@ -7,9 +7,14 @@ import 'package:flutter_spotify_clone/domain/entities/song/song.dart';
 
 class FavoriteButton extends StatelessWidget {
   final SongEntity songEntity;
+  final Function? function;
   final bool initialIsFavorite;
 
-  FavoriteButton({required this.songEntity, bool? initialIsFavorite, super.key})
+  FavoriteButton(
+      {required this.songEntity,
+      this.function,
+      bool? initialIsFavorite,
+      super.key})
       : initialIsFavorite = initialIsFavorite ?? songEntity.isFavorite;
 
   @override
@@ -24,10 +29,13 @@ class FavoriteButton extends StatelessWidget {
               : initialIsFavorite;
 
           return IconButton(
-            onPressed: () {
-              context
+            onPressed: () async {
+              await context
                   .read<FavoriteButtonCubit>()
                   .favoriteButtonUpdated(songEntity.songId);
+              if (function != null) {
+                function!();
+              }
             },
             icon: Icon(
               isFavorite ? Icons.favorite : Icons.favorite_outline_outlined,
